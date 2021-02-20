@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import "./todos.css";
 
-function Todo({ title, todoId, completed }) {
+function Todo({ title, todoId, completed, receiveTodos }) {
   const [isCompleted, setIsCompleted] = React.useState(completed);
   const [change, setChange] = React.useState(false);
   React.useEffect(() => {
@@ -15,7 +15,9 @@ function Todo({ title, todoId, completed }) {
     const dataToSend = { id: todoId, completed: isCompleted };
     axios
       .post("http://localhost:5000/todos/completed", dataToSend)
-      .then((todo) => console.log(todo))
+      .then((todo) => {
+        console.log(todo);
+      })
       .catch((e) => console.log(e));
   }
 
@@ -28,7 +30,10 @@ function Todo({ title, todoId, completed }) {
     const dataToSend = { id: todoId };
     axios
       .post("http://localhost:5000/todos/delete", dataToSend)
-      .then((todo) => console.log(todo))
+      .then((todo) => {
+        console.log(todo);
+        receiveTodos();
+      })
       .catch((e) => console.log(e));
   }
 
@@ -47,7 +52,7 @@ function Todo({ title, todoId, completed }) {
   );
 }
 
-function CreateTodo() {
+function CreateTodo({ receiveTodos }) {
   const [todo, setTodo] = React.useState({ title: "" });
 
   function onChange(e) {
@@ -57,10 +62,10 @@ function CreateTodo() {
 
   function onSubmit(e) {
     e.preventDefault();
-
-    axios
-      .post("http://localhost:5000/todos/create", todo)
-      .then((res) => console.log(res));
+    axios.post("http://localhost:5000/todos/create", todo).then((res) => {
+      console.log(res);
+      receiveTodos();
+    });
   }
   return (
     <form onSubmit={onSubmit} className="todoCreateFormContainer">
@@ -88,21 +93,27 @@ function GetTodos() {
       setTodos(todos.data);
     });
   };
+
   return (
-    <div className="singleTodoStyles">
-      <h1>Current todos</h1>
-      {allTodos.map((todo) => {
-        return (
-          <div key={todo._id}>
-            <Todo
-              title={todo.title}
-              todoId={todo._id}
-              completed={todo.completed}
-            />
-          </div>
-        );
-      })}
-    </div>
+    <>
+      <div className="singleTodoStyles">
+        <h1>Current todos</h1>
+        {allTodos.map((todo) => {
+          return (
+            <div key={todo._id}>
+              <Todo
+                title={todo.title}
+                todoId={todo._id}
+                completed={todo.completed}
+                receiveTodos={receiveTodos}
+              />
+            </div>
+          );
+        })}
+      </div>
+      <h2>Create your todo</h2>
+      <CreateTodo receiveTodos={receiveTodos} />
+    </>
   );
 }
 
@@ -110,8 +121,6 @@ function Todos() {
   return (
     <div className="todosMainContainer">
       <GetTodos />
-      <h1>This is TODO page</h1>
-      <CreateTodo />
     </div>
   );
 }
