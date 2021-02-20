@@ -1,0 +1,67 @@
+.todosMainContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.singleTodoStyles {
+  display: flex;
+  flex-direction: column;
+}
+
+.todoContainer {
+  font-size: 16px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.completedTodo {
+  text-decoration: line-through;
+}
+
+.todoCreateFormContainer input {
+  padding: 10px;
+  width: 47%;
+  border: none;
+  border-bottom: 2px solid #ccc;
+}
+
+.todoCreateFormContainer input:focus {
+  border: 3px solid #0984e3;
+}
+
+.todoCreateFormContainerorm {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.todoCreateFormContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+label {
+  font-size: 16px;
+}
+
+.todoCreateFormContainer button {
+  width: 50%;
+  padding: 10px;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: #0984e3;
+  color: #dfe6e9;
+  border: none;
+  transition: all 0.3s;
+}
+
+.todoCreateFormContainer button:hover {
+  cursor: pointer;
+  border: 2px solid #0984e3;
+  background-color: #fff;
+  color: #2d3436;
+}
